@@ -105,6 +105,8 @@
               }
               // change URL in address bar
               window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref());
+              // update page title
+              this.changePageTitle()
             },
           },
           created() {
@@ -116,6 +118,9 @@
 
             // change URL in address bar
             window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref());
+
+            // update page title
+            this.changePageTitle()
 
             // preload map images
             const vm = this
@@ -136,6 +141,10 @@
               } else {
                 return "./?gameId=" + this.gameIdTemp + '&turn=' + this.turn
               }
+            },
+            changePageTitle() {
+              const titleEl = document.querySelector('head title');
+              titleEl.textContent = 'vDiplomacy Big Big Map Viewer (' + this.gameId + '/' + this.turn + ')';
             }
           }
         });
