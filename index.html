@@ -63,16 +63,16 @@
       <div class="container-fluid">
         <div class="row" v-for="(turnUrl, key) in turnUrls">
           <div class="col text-center" v-show="turn == key">
-            <img class="img-fluid mb-5" style="user-select: none"
+            <img class="img-fluid" style="user-select: none"
               :src="turnUrl" :key="turnUrl">
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container -->
     </div>
     <div class="container">
-      <div class="row">
+      <div class="row mt-5">
         <div class="col d-flex justify-content-center">
-          <a
+          <a class="text-secondary"
             href="https://github.com/jonasjancarik/vdiplomacy-bigmap-viewer">https://github.com/jonasjancarik/vdiplomacy-bigmap-viewer</a>
         </div><!-- /.col d-flex justify-content-center -->
       </div><!-- /.row -->
