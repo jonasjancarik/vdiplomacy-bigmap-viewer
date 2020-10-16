@@ -51,7 +51,7 @@
                 <button @click="--turn" type="button" class="btn btn-secondary" :disabled="turn == -1">< previous</button>
               </div>
               <div class="input-group">
-                <input type="text" class="form-control text-center" :style="'width: ' + (this.turn.toString().length + 2) + 'em'" v-model="turn">
+                <input type="text" class="form-control text-center" :style="'width: ' + (this.turn.toString().length + 1.5) + 'em'" v-model="turn">
               </div>
             <div class="btn-group ml-2" role="group">
               <button @click="++turn" type="button" class="btn btn-secondary">> next</button>
@@ -158,8 +158,26 @@
             },
             updateAddressBarUrl() {
               window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref());
+            },
+            handleKeydown(e) {
+              switch (e.keyCode) {
+                case 37:
+                  if (this.turn > -1) {
+                    --this.turn
+                  }
+                  break
+                case 39:
+                  ++this.turn
+                  break;
+              }
             }
-          }
+          },
+        beforeMount() {
+          window.addEventListener('keydown', this.handleKeydown, null);
+        },
+        beforeDestroy() {
+          window.removeEventListener('keydown', this.handleKeydown);
+        }
         });
 
         app.mount('#app')
