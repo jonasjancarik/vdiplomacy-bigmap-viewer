@@ -29,19 +29,18 @@
             <div class="form-row align-items-center">
               <div class="col-auto">
                 <div class="form-check mb-2">
-                  <input type="text" style="width: 6em" class="form-control text-center" id="gameIdInput" placeholder="Game ID" v-model="gameId">
+                  <input type="text" style="width: 6em" class="form-control text-center" id="gameIdInput" placeholder="Game ID" v-model="gameIdTemp">
                 </div>
               </div>
               <div class="col-auto">
-                <!-- <button type="submit" class="btn btn-primary mb-2">Submit</button> -->
-                <button type="submit" class="btn btn-primary mb-2">Change game ID</button>
+                <button type="submit" class="btn btn-primary mb-2" :disabled="!gameIdTemp">{{ gameId ? 'Change game' : 'View game' }}</button>
               </div>
             </div>
           </form>
         </div><!-- /.col d-flex justify-content-center -->
       </div><!-- /.row -->
     </div><!-- /.container -->
-    <div v-if="gameIdCurrent">
+    <div v-if="gameId">
       <div class="container">
         <div class="row mt-3">
           <div class="col text-center d-flex justify-content-center">
@@ -68,7 +67,7 @@
         <div class="row">
           <div class="col text-center">
             <img class="img-fluid mb-5" style="user-select: none"
-              :src="'https://vdiplomacy.com/map.php?gameID=' + gameIdCurrent + '&turn=' + turn + '&mapType=large'" alt=""
+              :src="'https://vdiplomacy.com/map.php?gameID=' + gameId + '&turn=' + turn + '&mapType=large'" alt=""
               srcset="">
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -87,8 +86,8 @@
           data() {
             return {
               message: 'foo',
+              gameIdTemp: null,
               gameId: null,
-              gameIdCurrent: null,
               turn: 1,
               maxTurn: 1,
               mapImgUrl: ''
@@ -103,13 +102,17 @@
             let urlParams = new URLSearchParams(window.location.search)
             if (urlParams.has('gameId')) {
               this.gameId = urlParams.get('gameId')
-              this.gameIdCurrent = this.gameId
             }
+            this.gameIdTemp = this.gameId
           },
           methods: {
             changeGameId () {
-              this.turn = 1
-              this.gameIdCurrent = this.gameId
+              if (window.location.href.includes('index.html')) {
+                window.location.href = "./index.html?gameId=" + this.gameIdTemp
+              } else {
+                window.location.href = "./?gameId=" + this.gameIdTemp
+              }
+              
             }
           }
         });
