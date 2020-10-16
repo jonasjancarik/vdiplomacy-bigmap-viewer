@@ -69,6 +69,14 @@
         </div><!-- /.row -->
       </div><!-- /.container -->
     </div>
+    <div class="container">
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+          <a
+            href="https://github.com/jonasjancarik/vdiplomacy-bigmap-viewer">https://github.com/jonasjancarik/vdiplomacy-bigmap-viewer</a>
+        </div><!-- /.col d-flex justify-content-center -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
 
     </div>
 
@@ -116,11 +124,13 @@
             this.gameIdTemp = this.gameId
             this.turn = urlParams.has('turn') ? urlParams.get('turn') : this.turn
 
-            // change URL in address bar
-            window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref());
+            if (this.gameId) {
+              // change URL in address bar
+              window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref());
 
-            // update page title
-            this.changePageTitle()
+              // update page title
+              this.changePageTitle()
+            }
 
             // preload map images
             const vm = this
