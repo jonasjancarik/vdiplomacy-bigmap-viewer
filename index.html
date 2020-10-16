@@ -89,12 +89,10 @@
           el: '#app',
           data() {
             return {
-              message: 'foo',
               gameIdTemp: null,
               gameId: null,
               turn: -1,
               maxTurn: -1,
-              mapImgUrl: '',
               turnUrls: {}
             }
           },
@@ -107,12 +105,13 @@
                 const vm = this
                 for (let index = val; index <= val + 5; index++) {
                   if (!this.turnUrls[index]) {
-                    setTimeout(function () { vm.turnUrls[index] = vm.composeMapUrl(index) }, (index - 1) * 100);
+                    setTimeout(function () { vm.turnUrls[index] = vm.composeMapUrl(index) }, (index - 1) * 100)
                   }
                 }
               }
               // change URL in address bar
-              window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref());
+              this.updateAddressBarUrl()
+              
               // update page title
               this.changePageTitle()
             },
@@ -126,7 +125,7 @@
 
             if (this.gameId) {
               // change URL in address bar
-              window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref());
+              this.updateAddressBarUrl()
 
               // update page title
               this.changePageTitle()
@@ -155,6 +154,9 @@
             changePageTitle() {
               const titleEl = document.querySelector('head title');
               titleEl.textContent = 'vDiplomacy Big Big Map Viewer (' + this.gameId + '/' + this.turn + ')';
+            },
+            updateAddressBarUrl() {
+              window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref());
             }
           }
         });
