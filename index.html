@@ -127,7 +127,10 @@
           },
           methods: {
             changeGameId() {
-              window.location.href = this.composeAppHref()
+              this.gameId = this.gameIdTemp
+              this.updateAddressBarUrl()
+              this.turnUrls = {}
+              this.preloadMapImages(this.turn)
             },
             composeMapUrl(turnId) {
               return 'https://vdiplomacy.com/map.php?gameID=' + this.gameId + '&turn=' + turnId + '&mapType=large'
