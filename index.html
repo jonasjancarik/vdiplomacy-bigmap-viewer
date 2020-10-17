@@ -124,9 +124,6 @@
               // update page title
               this.changePageTitle()
             }
-
-            // preload map images
-            this.preloadMapImages(this.turn)
           },
           methods: {
             changeGameId() {
@@ -171,6 +168,7 @@
                 addMapUrl(currentTurn)
                 for (let index = currentTurn - 3; index <= currentTurn + 3; index++) {
                   if (!this.turnUrls[index] && index > -2) {
+                    this.turnUrls[index] = '' // this will create DOM elements, preventing flicker
                     setTimeout(function () { addMapUrl(index) }, (index + 3 - currentTurn) * 100)
                   }
                 }
