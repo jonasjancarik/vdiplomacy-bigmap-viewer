@@ -101,15 +101,8 @@
             turn(val) {
               val = parseInt(val)
               this.maxTurn = val > this.maxTurn ? val : this.maxTurn
-              if (!this.turnUrls[val] || !this.turnUrls[val + 5]) {
-                // preload next five
-                const vm = this
-                for (let index = val; index <= val + 5; index++) {
-                  if (!this.turnUrls[index]) {
-                    setTimeout(function () { vm.turnUrls[index] = vm.composeMapUrl(index) }, (index - 1) * 100)
-                  }
-                }
-              }
+              this.preloadMapImages(val)
+
               // change URL in address bar
               this.updateAddressBarUrl()
               
@@ -133,10 +126,7 @@
             }
 
             // preload map images
-            const vm = this
-            for (let index = -1; index <= 3; index++) {
-              setTimeout(function () { vm.turnUrls[index] = vm.composeMapUrl(index) }, (index - 1) * 100)
-            }
+            this.preloadMapImages(this.turn)
           },
           methods: {
             changeGameId() {
@@ -170,12 +160,27 @@
                   ++this.turn
                   break;
               }
+            },
+            preloadMapImages(currentTurn) {
+              const vm = this
+              currentTurn = parseInt(currentTurn)
+              function addMapUrl(turn) { vm.turnUrls[turn] = vm.composeMapUrl(turn); console.log(`turn ${turn} preloaded`) }
+              // if the current turn isn't loaded yet or the ones around
+              if (!this.turnUrls[currentTurn] || !this.turnUrls[currentTurn + 3] || !this.turnUrls[currentTurn - 3]) {
+                // load current turn and preload turns around this one
+                addMapUrl(currentTurn)
+                for (let index = currentTurn - 3; index <= currentTurn + 3; index++) {
+                  if (!this.turnUrls[index] && index > -2) {
+                    setTimeout(function () { addMapUrl(index) }, (index + 3 - currentTurn) * 100)
+                  }
+                }
+              }
             }
           },
         beforeMount() {
           window.addEventListener('keydown', this.handleKeydown, null);
         },
-        beforeDestroy() {
+        beforeUnmount() {
           window.removeEventListener('keydown', this.handleKeydown);
         }
         });
