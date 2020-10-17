@@ -143,28 +143,26 @@
               }
             },
             changePageTitle() {
-              const titleEl = document.querySelector('head title');
-              titleEl.textContent = 'vDiplomacy Big Big Map Viewer (' + this.gameId + '/' + this.turn + ')';
+              const titleEl = document.querySelector('head title')
+              titleEl.textContent = 'vDiplomacy Big Big Map Viewer (' + this.gameId + '/' + this.turn + ')'
             },
             updateAddressBarUrl() {
-              window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref());
+              window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref())
             },
             handleKeydown(e) {
               switch (e.keyCode) {
                 case 37:
-                  if (this.turn > -1) {
-                    --this.turn
-                  }
+                  if (this.turn > -1) --this.turn
                   break
                 case 39:
                   ++this.turn
-                  break;
+                  break
               }
             },
             preloadMapImages(currentTurn) {
               const vm = this
               currentTurn = parseInt(currentTurn)
-              function addMapUrl(turn) { vm.turnUrls[turn] = vm.composeMapUrl(turn); console.log(`turn ${turn} preloaded`) }
+              function addMapUrl(turn) { vm.turnUrls[turn] = vm.composeMapUrl(turn) }
               // if the current turn isn't loaded yet or the ones around
               if (!this.turnUrls[currentTurn] || !this.turnUrls[currentTurn + 3] || !this.turnUrls[currentTurn - 3]) {
                 // load current turn and preload turns around this one
@@ -179,12 +177,12 @@
             }
           },
         beforeMount() {
-          window.addEventListener('keydown', this.handleKeydown, null);
+          window.addEventListener('keydown', this.handleKeydown, null)
         },
         beforeUnmount() {
-          window.removeEventListener('keydown', this.handleKeydown);
+          window.removeEventListener('keydown', this.handleKeydown)
         }
-        });
+        })
 
         app.mount('#app')
     </script>
