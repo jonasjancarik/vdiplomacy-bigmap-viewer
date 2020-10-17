@@ -24,15 +24,17 @@
       <div class="row mt-3">
         <div class="col d-flex justify-content-center">
           <form @submit.stop.prevent @submit="changeGameId">
-            <div class="form-row align-items-center">
+            <div class="form-row align-items-center justify-content-center">
               <div class="col-auto">
-                <div class="form-check mb-2">
+                <div class="form-check mb-2 pl-0">
                   <input type="text" style="width: 6em" class="form-control text-center" id="gameIdInput" placeholder="Game ID" v-model="gameIdTemp">
                 </div>
               </div>
               <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-2" :disabled="!gameIdTemp">{{ gameId ? 'Change game' : 'View game' }}</button>
-                <a v-if="gameId" class="ml-2 btn btn-secondary mb-2" :href="'https://vdiplomacy.com/board.php?gameID=' + gameIdTemp">Go to game</a>
+              </div>
+              <div class="col-auto">
+                <a v-if="gameId" class="btn btn-secondary mb-2" :href="'https://vdiplomacy.com/board.php?gameID=' + gameIdTemp">Go to game</a>
               </div>
             </div>
           </form>
@@ -45,15 +47,15 @@
           <div class="col text-center d-flex justify-content-center">
             <div class="btn-toolbar mb-3" role="toolbar">
               <div class="btn-group mr-2" role="group">
-                <button @click="turn = -1" type="button" class="btn btn-secondary" :disabled="turn == -1"><< first</button>
-                <button @click="--turn" type="button" class="btn btn-secondary" :disabled="turn == -1">< previous</button>
+                <button @click="turn = -1" type="button" class="btn btn-secondary" :disabled="turn == -1"><<<span class="d-none d-md-inline"> first</span></button>
+                <button @click="--turn" type="button" class="btn btn-secondary" :disabled="turn == -1"><<span class="d-none d-md-inline"> previous</span></button>
               </div>
               <div class="input-group">
                 <input type="text" class="form-control text-center" :style="'width: ' + (this.turn.toString().length + 1.5) + 'em'" v-model="turn">
               </div>
             <div class="btn-group ml-2" role="group">
-              <button @click="++turn" type="button" class="btn btn-secondary">> next</button>
-              <button @click="turn = maxTurn" type="button" class="btn btn-secondary">>> last loaded ({{ maxTurn }})</button>
+              <button @click="++turn" type="button" class="btn btn-secondary">><span class="d-none d-md-inline"> next</span></button>
+              <button @click="turn = maxTurn" type="button" class="btn btn-secondary">>><span class="d-none d-md-inline"> last loaded ({{ maxTurn }})</span></button>
             </div>
             </div>
           </div><!-- /.col text-center -->
