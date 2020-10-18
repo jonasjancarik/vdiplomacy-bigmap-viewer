@@ -116,6 +116,14 @@
             this.gameIdTemp = this.gameId
             this.turn = urlParams.has('turn') ? urlParams.get('turn') : this.turn
 
+            // prepare turnUrls to prevent v-for rebuilding DOM when new keys are added
+            for (let index = -1; index < 500; index++) {
+              this.turnUrls[index] = null
+            }
+
+            // preload map images
+            this.preloadMapImages(this.turn)
+
             if (this.gameId) {
               // change URL in address bar
               this.updateAddressBarUrl()
@@ -161,7 +169,9 @@
             preloadMapImages(currentTurn) {
               const vm = this
               currentTurn = parseInt(currentTurn)
-              function addMapUrl(turn) { vm.turnUrls[turn] = vm.composeMapUrl(turn) }
+              function addMapUrl(turn) {
+                vm.turnUrls[turn] = vm.composeMapUrl(turn)
+              }
               // if the current turn isn't loaded yet or the ones around
               if (!this.turnUrls[currentTurn] || !this.turnUrls[currentTurn + 3] || !this.turnUrls[currentTurn - 3]) {
                 // load current turn and preload turns around this one
