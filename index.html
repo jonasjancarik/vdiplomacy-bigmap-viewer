@@ -117,7 +117,7 @@
             this.turn = urlParams.has('turn') ? urlParams.get('turn') : this.turn
 
             // prepare turnUrls to prevent v-for rebuilding DOM when new keys are added
-            for (let index = -1; index < 500; index++) {
+            for (let index = -1; index < 1000; index++) {
               this.turnUrls[index] = null
             }
 
