@@ -64,8 +64,7 @@
       <div class="container-fluid">
         <div class="row" v-for="(turnUrl, key) in turnUrls">
           <div class="col text-center" v-show="turn == key">
-            <img class="img-fluid" style="user-select: none"
-              :src="turnUrl" :key="turnUrl">
+            <a :href="turnUrl"><img class="img-fluid" style="user-select: none" :src="turnUrl" :key="turnUrl"></a>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container -->
