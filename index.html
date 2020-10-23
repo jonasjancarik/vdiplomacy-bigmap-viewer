@@ -60,11 +60,24 @@
             </div>
           </div><!-- /.col text-center -->
         </div><!-- /.row -->
+        <div class="row pb-3">
+          <div class="col d-flex justify-content-center">
+            <div class="form-check" style="user-select: none">
+              <input class="form-check-input" id="showMovesCheck" type="checkbox" @click="showMoves = !showMoves" checked>
+              <label class="form-check-label" for="showMovesCheck">
+                Show moves
+              </label>
+            </div>
+          </div><!-- /.col d-flex justify-content-center -->
+        </div><!-- /.row -->
       </div><!-- /.container -->
       <div class="container-fluid">
         <div class="row" v-for="(turnUrl, key) in turnUrls">
-          <div class="col text-center" v-show="turn == key">
+          <div class="col text-center" v-show="turn == key && showMoves">
             <a :href="turnUrl"><img class="img-fluid" style="user-select: none" :src="turnUrl" :key="turnUrl"></a>
+          </div><!-- /.col -->
+          <div class="col text-center" v-show="turn == key && !showMoves">
+            <a :href="turnUrl"><img class="img-fluid" style="user-select: none" :src="turnUrl + '&hideMoves'" :key="turnUrl"></a>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container -->
@@ -93,7 +106,8 @@
               gameId: null,
               turn: -1,
               maxTurn: -1,
-              turnUrls: {}
+              turnUrls: {},
+              showMoves: true
             }
           },
           watch: {
