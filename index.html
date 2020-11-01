@@ -183,7 +183,7 @@
                   if (this.turn > -1) --this.turn
                   break
                 case 39:
-                  ++this.turn
+                  if (!this.lastTurn || this.turn < this.lastTurn) ++this.turn
                   break
               }
             },
