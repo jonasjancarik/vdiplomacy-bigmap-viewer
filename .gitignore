@@ -1,3 +1,6 @@
+# Ad hoc
+ignore-*
+
 # Logs
 logs
 *.log

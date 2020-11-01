@@ -11,6 +11,7 @@
     <title>vDiplomacy Big Big Map Viewer</title>
 
     <script src="https://unpkg.com/vue@3.0.1/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   </head>
   <body>
@@ -54,8 +55,8 @@
                 <input type="text" class="form-control text-center" :style="'width: ' + (this.turn.toString().length + 1.5) + 'em'" v-model="turn">
               </div>
             <div class="btn-group ml-2" role="group">
-              <button @click="++turn" type="button" class="btn btn-secondary">><span class="d-none d-md-inline"> next</span></button>
-              <button @click="turn = maxTurn" type="button" class="btn btn-secondary">>><span class="d-none d-md-inline"> last loaded ({{ maxTurn }})</span></button>
+              <button @click="++turn" type="button" class="btn btn-secondary" :disabled="turn == lastTurn">><span class="d-none d-md-inline"> next</span></button>
+              <button @click="turn = lastTurn" type="button" class="btn btn-secondary" :disabled="!lastTurn || turn == lastTurn">>><span class="d-none d-md-inline"> last ({{ lastTurn || 'checking...' }})</span></button>
             </div>
             </div>
           </div><!-- /.col text-center -->
@@ -71,7 +72,7 @@
           </div><!-- /.col d-flex justify-content-center -->
         </div><!-- /.row -->
       </div><!-- /.container -->
-      <div class="container-fluid">
+      <div class="container-fluid" v-if="Object.keys(turnUrls).length">
         <div class="row" v-for="(turnUrl, key) in turnUrls">
           <div class="col text-center" v-show="turn == key && showMoves">
             <a :href="turnUrl"><img class="img-fluid" style="user-select: none" :src="turnUrl" :key="turnUrl"></a>
@@ -105,15 +106,17 @@
               gameIdTemp: null,
               gameId: null,
               turn: -1,
-              maxTurn: -1,
+              lastTurn: null,
               turnUrls: {},
-              showMoves: true
+              showMoves: true,
+              gamePageHTML: ''
             }
           },
           watch: {
             turn(val) {
               val = parseInt(val)
-              this.maxTurn = val > this.maxTurn ? val : this.maxTurn
+
+              // preload missing images
               this.preloadMapImages(val)
 
               // change URL in address bar
@@ -144,6 +147,9 @@
 
               // update page title
               this.changePageTitle()
+
+              // scrape game page
+              this.findLastTurn()
             }
           },
           methods: {
@@ -152,6 +158,7 @@
               this.updateAddressBarUrl()
               this.turnUrls = {}
               this.preloadMapImages(this.turn)
+              this.findLastTurn()
             },
             composeMapUrl(turnId) {
               return 'https://vdiplomacy.com/map.php?gameID=' + this.gameId + '&turn=' + turnId + '&mapType=large'
@@ -191,12 +198,20 @@
                 // load current turn and preload turns around this one
                 addMapUrl(currentTurn)
                 for (let index = currentTurn - 3; index <= currentTurn + 3; index++) {
-                  if (!this.turnUrls[index] && index > -2) {
+                  if (!this.turnUrls[index] && index > -2 && (index <= this.lastTurn || this.lastTurn === null)) {
                     this.turnUrls[index] = '' // this will create DOM elements, preventing flicker
                     setTimeout(function () { addMapUrl(index) }, (index + 3 - currentTurn) * 100)
                   }
                 }
               }
+            },
+            async findLastTurn() {
+              const res = await axios('https://cors-anywhere.herokuapp.com/https://vdiplomacy.com/board.php?gameID=' + this.gameId)
+              this.gamePageHTML = res.data
+
+              const elt = document.createElement('body');
+              elt.innerHTML = this.gamePageHTML;
+              this.lastTurn = elt.getElementsByClassName('maphistory')[0].getElementsByClassName('button')[3].getAttribute('onclick').split(',')[1]
             }
           },
         beforeMount() {
