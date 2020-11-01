@@ -212,6 +212,8 @@
               const elt = document.createElement('body');
               elt.innerHTML = this.gamePageHTML;
               this.lastTurn = elt.getElementsByClassName('maphistory')[0].getElementsByClassName('button')[3].getAttribute('onclick').split(',')[1]
+
+              if (this.turn > this.lastTurn) this.turn = this.lastTurn
             }
           },
         beforeMount() {
