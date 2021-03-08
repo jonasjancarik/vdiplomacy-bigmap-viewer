@@ -19,7 +19,7 @@
     <div class="container">
       <div class="row">
         <div class="col d-flex justify-content-center">
-          <h1>vDiplomacy Big Big Map Viewer</h1>
+          <h1>{{ gameName || 'vDiplomacy Big Big Map Viewer' }}</h1>
         </div><!-- /.col -->
       </div><!-- /.row -->
       <div class="row mt-3">
@@ -109,7 +109,8 @@
               lastTurn: null,
               turnUrls: {},
               showMoves: true,
-              gamePageHTML: ''
+              gamePageHTML: '',
+              gameName: ''
             }
           },
           watch: {
@@ -155,6 +156,7 @@
           methods: {
             changeGameId() {
               this.gameId = this.gameIdTemp
+              this.gameName = ''
               this.updateAddressBarUrl()
               this.turnUrls = {}
               this.preloadMapImages(this.turn)
@@ -211,6 +213,7 @@
 
               const elt = new DOMParser().parseFromString(this.gamePageHTML, 'text/html');
               this.lastTurn = elt.getElementsByClassName('maphistory')[0].getElementsByClassName('button')[3].getAttribute('onclick').split(',')[1]
+              this.gameName = elt.getElementsByClassName('gameName')[0].innerText
 
               if (this.turn > this.lastTurn) this.turn = this.lastTurn
             }
