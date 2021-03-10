@@ -174,7 +174,7 @@
             },
             changePageTitle() {
               const titleEl = document.querySelector('head title')
-              titleEl.textContent = 'vDiplomacy Big Big Map Viewer (' + this.gameId + '/' + this.turn + ')'
+              titleEl.textContent = 'vDiplomacy Big Big Map Viewer (' + (this.gameName || this.gameId) + '/' + this.turn + ')'
             },
             updateAddressBarUrl() {
               window.history.replaceState({}, 'vDiplomacy Big Big Map Viewer', this.composeAppHref())
