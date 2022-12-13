@@ -208,7 +208,7 @@
               }
             },
             async findLastTurn() {
-              const res = await axios('https://cors-anywhere-jj.herokuapp.com/https://vdiplomacy.com/board.php?gameID=' + this.gameId)
+              const res = await axios('https://cors-anywhere-jj.onrender.com/https://vdiplomacy.com/board.php?gameID=' + this.gameId)
               this.gamePageHTML = res.data
 
               const elt = new DOMParser().parseFromString(this.gamePageHTML, 'text/html');
