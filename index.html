@@ -75,10 +75,10 @@
       <div class="container-fluid" v-if="Object.keys(turnUrls).length">
         <div class="row" v-for="(turnUrl, key) in turnUrls">
           <div class="col text-center" v-show="turn == key && showMoves">
-            <a :href="turnUrl"><img class="img-fluid" style="user-select: none" :src="turnUrl" :key="turnUrl"></a>
+            <a :href="turnUrl"><img v-if="turnUrl" class="img-fluid" style="user-select: none" :src="turnUrl" :key="turnUrl"></a>
           </div><!-- /.col -->
           <div class="col text-center" v-show="turn == key && !showMoves">
-            <a :href="turnUrl + '&hideMoves'"><img class="img-fluid" style="user-select: none" :src="turnUrl + '&hideMoves'" :key="turnUrl"></a>
+            <a :href="turnUrl + '&hideMoves'"><img v-if="turnUrl" class="img-fluid" style="user-select: none" :src="turnUrl + '&hideMoves'" :key="turnUrl"></a>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container -->
